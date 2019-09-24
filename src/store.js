@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-  	items: 'dsfs'
+  	items: []
   },
   getters: {
   	getItems: state => {
@@ -18,7 +18,8 @@ export default new Vuex.Store({
   			db.collection('items').orderBy('created_at').onSnapshot((snapshot) => {
   				items = []
   				snapshot.forEach((doc) => {
-  					items.push({id: doc.id, title: doc.data().title})
+  					items.push({id: doc.id, title: doc.data().title , created_at: doc.data().created_at
+            })
   				})
   				state.items = items
   			})

@@ -17,6 +17,7 @@
  
      <div v-for="item in this.$store.getters.getItems" :key="item.id">
        {{ item.title }}<br /><br /><small style="text-decoration:underline;" @click="deleteItem(item.id)">Delete</small>
+       <p>{{item.created_at}}</p>
        <hr />
      </div>
    </div>
@@ -48,10 +49,8 @@ export default {
 
   	}
   },
-  beforeCreate(){
-
-  		// this.$store.dispatch('setitems')
-  		// console.log(this.$store.getters.getItems)
+   beforeCreate(){
+    return this.$store.dispatch('setItems')
   },
   methods:{
   	addToDo(){
@@ -83,7 +82,20 @@ export default {
   		}
   		
 
-  	 }
+  	 },
+     deleteItem(id){
+        if(id){
+          db.collection('items').doc(id).delete().then(() => {
+              console.log("ma obrosiao si ga majstore")
+          }).catch((error) => {
+            this.error = error
+          })
+
+        }else{
+           this.error = "invalid si" 
+
+        }
+     }
 
   	// ,prazno(){
   	// 	//////////
